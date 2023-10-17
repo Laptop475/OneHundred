@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #startButton{
+            padding: 10px;
+            font-size: 3rem;
+            border-radius: 5px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            margin: auto;
+            width: 100%;
+            font-size: 2rem;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            text-align: center;
+            padding: 10px;
+            transition: background-color 1s; /* CSS transition for smooth color change */
+        }
+
+        /* Add a CSS class for the yellow background color */
+        .yellow-bg {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+    <table>
+        <tbody id="table-body">
+        </tbody>
+    </table>
+    <br>
+    <p style="text-align: center;">
+        <button id="startButton">Start</button>
+    </p>
+
+    <script>
+        const tableBody = document.getElementById("table-body");
+        const cells = [];
+        let currentIndex = 0;
+        let animationInterval;
+
+        // Create and populate the table with numbers
+        for (let i = 1; i <= 10; i++) {
+            const row = document.createElement("tr");
+
+            for (let j = 1; j <= 10; j++) {
+                const cell = document.createElement("td");
+                const cellValue = (i - 1) * 10 + j;
+                cell.textContent = cellValue;
+                row.appendChild(cell);
+                cells.push(cell);
+            }
+
+            tableBody.appendChild(row);
+        }
+
+        function startAnimation() {
+            if (currentIndex < cells.length) {
+                // Add the "yellow-bg" class to smoothly change the background color
+                cells[currentIndex].classList.add("yellow-bg");
+
+                animationInterval = setTimeout(function () {
+                    // Remove the "yellow-bg" class to make it disappear
+                    cells[currentIndex].classList.remove("yellow-bg");
+                    currentIndex++;
+                    startAnimation();
+                }, 2000);
+            }
+        }
+
+        // Event listener for the "Start" button
+        const startButton = document.getElementById("startButton");
+        startButton.addEventListener("click", () => {
+            // Reset the animation if the user clicks "Start" multiple times
+            clearTimeout(animationInterval);
+            currentIndex = 0;
+            startAnimation();
+        });
+    </script>
+</body>
+</html>
